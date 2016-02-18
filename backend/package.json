@@ -1,0 +1,29 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "built/server.js",
+  "scripts": {
+    "test": "node_modules/.bin/jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorgegzlezprez/TicTacToe.git"
+  },
+  "author": "Jose Miguel Gallas Olmedo & Jorge Gonzalez Perez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jorgegzlezprez/TicTacToe/issues"
+  },
+  "homepage": "https://github.com/jorgegzlezprez/TicTacToe#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "tsc": "^1.20150623.0",
+    "tsd": "^0.6.5"
+  },
+  "devDependencies": {
+    "jasmine": "^2.4.1",
+    "request": "^2.69.0"
+  }
+}
