@@ -1,3 +1,6 @@
+# Visual Code files
+.vscode
+
 # Logs
 logs
 *.log
