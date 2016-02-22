@@ -1,0 +1,189 @@
+FORMAT: 1A
+HOST: http://localhost:3000/
+
+# TicTacToe
+
+TicTacToe is an API, made with node.js, which allows users to play this game with other users.
+
+## Users Collection [/users]
+
+### List All Users [GET]
+
++ Response 200 (application/json)
+
+    + Body
+    
+            { 
+                "users": [ 
+                    { 
+                        "name": "Spiderman",
+                        "played": "0",
+                        "winnings": "0"
+                    },
+                    { 
+                        "name": "Batman",
+                        "played": "0",
+                        "winnings": "0" 
+                    },
+                    { 
+                        "name": "Daredevil",
+                        "played": "0",
+                        "winnings": "0"
+                    }
+                ] 
+            }
+
+### Create a New User [POST]
+
+You may create a new user. It takes a user name, which has to be unique, and a password in oder to login.
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "name": "Wolverine",
+                "password": "wolvie123"
+            }       
+
++ Response 201
+
++ Response 403 (text)
+
+    + Body
+    
+            Username already exists
+
+## User [/users/{user_id}]
+
++ Parameters
+    + user_id (string) - ID of the User in the form of a string
+
+### Get Users Stats [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            { 
+                "id": "1",
+                "name": "Spiderman",
+                "played": "0",
+                "winnings": "0"
+            }
+            
++ Response 404
+
+    + Body
+        
+            User does not exist
+
+## Login [/login]
+
+### User Login [GET]
+
++ Request (application/json)
+
+    + Body
+    
+            {
+                "name": "Wolverine",
+                "password": "wolvie123"
+            }
+        
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "session_id": "..."
+            }
+        
++ Response 403 (text)
+
+    + Body
+    
+            Wrong username or password
+            
+## Games for User [/games/{user_name}]
+
+### List All Users Engaged [GET]
+
+For a particular user, you may get all other users that share an unfinished game with.
+
++ Response 200 (application/json)
+
+    + Body
+    
+            { 
+                "users": [ 
+                    { 
+                        "name": "Spiderman",
+                        "played": "0",
+                        "winnings": "0"
+                    }
+                    { 
+                        "name": "Daredevil",
+                        "played": "0",
+                        "winnings": "0"
+                    }
+                ] 
+            }
+        
++ Response 404
+
+    + Body
+        
+            User does not exist
+
+## Games [/games/{user_name_x}/{user_name_o}{?tile}]
+
+You may access a game through the user names of its two players.
+
+### Start New Game [POST]
+
++ Response 201
+
++ Response 403 (text)
+
+    + Body
+    
+            Game already started
+
+### Get Game Grid [GET]
+
+You may get a game's grid in form of an array of 9 strings. Each string may have a value of "x", "o" or null depending on whether an user has marked a tile or not.
+
++ Response 200 (application/json)
+
+    + Body
+    
+            ["x", null, "x", null, "o", null, null, null, null]
+            
++ Response 404 (text)
+
+    + Body
+    
+            Game does not exists
+
+### Move [PUT]
+
++ Response 202
+
++ Response 401
+
+    + Body
+    
+            User is not a player in this game
+
++ Response 403
+
+    + Body
+    
+            Wait for your opponent's to move
+
++ Response 404 (text)
+
+    + Body
+    
+            Game does not exists
