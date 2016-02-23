@@ -1,49 +1,45 @@
+/// <reference path="../model/user.ts" />
+
 import express = require("express");
 
 const users: express.Router = express.Router();
 
+// Dummy data only for testing
+const mockedUsersArray: User[] = [
+    new User("Spiderman", 0, 0),
+    new User("Batman", 0, 0),
+    new User("Daredevil", 0, 0)
+]
 /**
  * Gets all users
  */
 users.get('/', (req, res) => {
-    var usersArray: Array<any> = [
-        {
-            name: "Spiderman"
-        },
-        {
-            name: "Daredevil"
-        },
-        {
-            name: "Batman"
-        }
-    ];
-
-    res.send(usersArray);
+    res.send(mockedUsersArray);
 });
 
 /**
  * Creates a new user
  */
 users.post('/', (req, res) => {
-    var user = {
-        name: "user"
-    }
+    const user: any = req.body;
 
-    res.status(201)
-        .send(user);
+    mockedUsersArray.forEach(u => {
+        if (u === user.name) {
+            res.status(403)
+                .send("User already exists");
+        }
+    })
+
+    res.send(201);
 });
 
 /**
  * Gets an user stats by name
  */
 users.get("/:name", (req, res) => {
-    var user: any = {
-        name: "Spiderman",
-        winnings: 20,
-        played: 20
-    }
 
-    res.send(user);
+    // TODO
+    res.send(mockedUsersArray[0]);
 })
 
 export default users;
