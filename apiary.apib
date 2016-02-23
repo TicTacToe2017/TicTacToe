@@ -52,12 +52,12 @@ You may create a new user. It takes a user name, which has to be unique, and a p
 
     + Body
     
-            Username already exists
+            User already exists
 
-## User [/users/{user_id}]
+## User [/users/{name}]
 
 + Parameters
-    + user_id (string) - ID of the User in the form of a string
+    + name (string) - Name of the User in the form of a string
 
 ### Get Users Stats [GET]
 
@@ -65,8 +65,7 @@ You may create a new user. It takes a user name, which has to be unique, and a p
 
     + Body
 
-            { 
-                "id": "1",
+            {
                 "name": "Spiderman",
                 "played": "0",
                 "winnings": "0"
