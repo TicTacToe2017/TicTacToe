@@ -9,18 +9,19 @@ const mockedUsersArray: User[] = [
     new User("Spiderman", 0, 0),
     new User("Batman", 0, 0),
     new User("Daredevil", 0, 0)
-]
+];
+
 /**
  * Gets all users
  */
-users.get('/', (req, res) => {
+users.get("/", (req, res) => {
     res.send(mockedUsersArray);
 });
 
 /**
  * Creates a new user
  */
-users.post('/', (req, res) => {
+users.post("/", (req, res) => {
     const user: any = req.body;
 
     mockedUsersArray.forEach(u => {
@@ -28,7 +29,7 @@ users.post('/', (req, res) => {
             res.status(403)
                 .send("User already exists");
         }
-    })
+    });
 
     res.send(201);
 });
@@ -40,6 +41,6 @@ users.get("/:name", (req, res) => {
 
     // TODO
     res.send(mockedUsersArray[0]);
-})
+});
 
 export default users;
