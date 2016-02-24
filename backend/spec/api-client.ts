@@ -20,4 +20,31 @@ export class ApiClient {
 
         request.get(url, null, requestCallback);
     }
+
+    public static postUser(
+        name: string,
+        password: string,
+        callback: (error, msg: string) => void
+    ) {
+        const url: string = "http://localhost:3000/users";
+        const options: request.CoreOptions = {
+            json: {
+                name: name,
+                password: password
+            }
+        };
+        const requestCallback = (error, response, body) => {
+            if (error) {
+                callback(error, null);
+
+            } else if (response.statusCode !== 201) {
+                callback(null, body);
+
+            } else {
+                callback(null, body);
+            }
+        };
+
+        request.post(url, options, requestCallback);
+    }
 }

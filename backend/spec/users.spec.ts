@@ -12,4 +12,22 @@ describe("GET /users", () => {
             done();
         });
     });
+
+    describe("POST /users", () => {
+        it("returns \"Created\" keyword if user did not exist and creates it", (done) => {
+            ApiClient.postUser("Wolverine", "wolvie123", (err, body: string) => {
+                expect(err).toBeNull();
+                expect(body).toEqual("Created");
+                done();
+            });
+        });
+
+        it("returns \"User already exists\" message if creating an already existing user", (done) => {
+            ApiClient.postUser("Wolverine", "wolvie123", (err, body: string) => {
+                expect(err).toBeNull();
+                expect(body).toEqual("User already exists");
+                done();
+            });
+        });
+    });
 });
