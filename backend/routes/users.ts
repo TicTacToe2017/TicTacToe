@@ -23,9 +23,18 @@ users.get("/", (req, res) => {
 users.post("/", (req, res) => {
     const user = req.body;
 
-    if (mockedUsersArray.some((u) => { return u.name === user.name; })) {
+    if (!user.name) {
+        res.status(403)
+            .send("Missing user name");
+
+    } else if (!user.password) {
+        res.status(403)
+            .send("Missing user password");
+
+    } else if (mockedUsersArray.some((u) => { return u.name === user.name; })) {
         res.status(403)
             .send("User already exists");
+
     } else {
         mockedUsersArray.push(new User(user.name, 0, 0));
         res.sendStatus(201);

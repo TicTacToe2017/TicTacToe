@@ -29,5 +29,21 @@ describe("GET /users", () => {
                 done();
             });
         });
+
+        it("returns \"Missing user name\" message if name is sent idle", (done) => {
+            ApiClient.postUser("", "wolvie123", (err, body: string) => {
+                expect(err).toBeNull();
+                expect(body).toEqual("Missing user name");
+                done();
+            });
+        });
+
+        it("returns \"Missing user password\" message if password is sent idle", (done) => {
+            ApiClient.postUser("Wolverine", "", (err, body: string) => {
+                expect(err).toBeNull();
+                expect(body).toEqual("Missing user password");
+                done();
+            });
+        });
     });
 });
