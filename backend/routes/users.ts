@@ -1,8 +1,7 @@
-/// <reference path="../model/user.ts" />
+import {User} from "../model/user";
+import {Router} from "express";
 
-import express = require("express");
-
-const users: express.Router = express.Router();
+const users: Router = Router();
 
 // Dummy data only for testing
 const mockedUsersArray: User[] = [

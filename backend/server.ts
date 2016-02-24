@@ -3,7 +3,7 @@
 import express = require("express");
 import bodyParser = require("body-parser");
 
-var app: express.Express = express();
+let app: express.Express = express();
 
 app.use(bodyParser.json());
 
@@ -15,4 +15,4 @@ app.use("/users", users.default);
 
 app.listen(3000, () => {
     console.log("TicTacToe Service listening on port 3000...");
-})
+});

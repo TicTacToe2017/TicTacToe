@@ -1,8 +1,8 @@
-import express = require("express");
+import {Router} from "express";
 
-const index: express.Router = express.Router();
+const index: Router = Router();
 
-index.get('/', (req, res) => {
+index.get("/", (req, res) => {
     res.send("Hello node with TS!");
 });
 
