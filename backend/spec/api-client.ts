@@ -47,4 +47,25 @@ export class ApiClient {
 
         request.post(url, options, requestCallback);
     }
+
+    public static getUser(
+        name: string,
+        callback: (error, user: User) => void
+    ): void {
+        const url: string = `http://localhost:3000/users/${name}`;
+        const requestCallback = (error, response, body) => {
+            if (error) {
+                callback(error, null);
+
+            } else if (response.statusCode !== 200) {
+                callback(body, null);
+
+            } else {
+                const user: User = JSON.parse(body);
+                callback(null, user);
+            }
+        };
+
+        request.get(url, null, requestCallback);
+    }
 }

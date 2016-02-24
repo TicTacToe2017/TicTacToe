@@ -42,12 +42,18 @@ users.post("/", (req, res) => {
 });
 
 /**
- * Gets an user stats by name
+ * Gets an user's stats by name
  */
 users.get("/:name", (req, res) => {
+    const userName: string = req.params.name;
+    const user: User = mockedUsersArray.filter((u) => u.name === userName)[0];
 
-    // TODO
-    res.send(mockedUsersArray[0]);
+    if (user) {
+        res.json(user);
+
+    } else {
+        res.sendStatus(404);
+    }
 });
 
 export default users;
