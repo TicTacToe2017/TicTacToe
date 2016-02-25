@@ -5,7 +5,7 @@ HOST: http://localhost:3000/
 
 TicTacToe is an API, made with node.js, which allows users to play this game with other users.
 
-## Users Collection [/users]
+## Users [/users]
 
 ### List All Users [GET]
 
@@ -104,11 +104,11 @@ You may create a new user. It takes a user name, which has to be unique, and a p
     
             Wrong username or password
             
-## Games for User [/games/{user_name}]
+## Games [/games/{name}]
 
 ### List All Users Engaged [GET]
 
-For a particular user, you may get all other users that share an unfinished game with.
+For a particular user, you may get all other users sharing a started game.
 
 + Response 200 (application/json)
 
@@ -135,9 +135,9 @@ For a particular user, you may get all other users that share an unfinished game
         
             User does not exist
 
-## Games [/games/{user_name_x}/{user_name_o}{?tile}]
+## Game [/games/{name_player_x}/{name_player_o}{?tile}]
 
-You may access a game through the user names of its two players.
+You may access a game through the names of its two players.
 
 ### Start New Game [POST]
 
@@ -151,7 +151,7 @@ You may access a game through the user names of its two players.
 
 ### Get Game Grid [GET]
 
-You may get a game's grid in form of an array of 9 strings. Each string may have a value of "x", "o" or null depending on whether an user has marked a tile or not.
+You may get a game's grid in form of an array of 9 strings. Each string has a value of "x", "o" or null depending on whether an user has marked a tile or not.
 
 + Response 200 (application/json)
 
