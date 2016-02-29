@@ -111,4 +111,27 @@ export class ApiClient {
 
         request.post(url, null, requestCallback);
     }
+    
+    public static move(
+        name_player_x: string,
+        name_player_o: string,
+        tileNumber : number,
+        callback: (error, res) => void
+    ): void {
+        const url: string = `http://localhost:3000/games/${name_player_x}/${name_player_o}?tile=${tileNumber}`;
+        const requestCallback = (error, response, body) => {
+            if (error) {
+                callback(error, null);
+
+            } else if (response.statusCode !== 201) {
+                callback(body, null);
+          
+            } else {
+                callback(null, body);
+            }
+        };
+
+        request.post(url, null, requestCallback);
+    }
+    
 }
