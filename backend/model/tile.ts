@@ -1,5 +1,4 @@
-export enum Tile {
-    undefined,
-    "x",
-    "o"
+export class Tile {
+    static x: string = "x";
+    static o: string = "o";
 };

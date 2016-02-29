@@ -32,7 +32,7 @@ games.get("/:name_player_x/:name_player_o", (req, res) => {
 
     if (game) {
         res.status(200)
-            .json(game.tiles);
+            .json(game.getTiles());
     } else {
         res.status(404)
             .send("Game does not exists");
@@ -45,6 +45,7 @@ games.get("/:name_player_x/:name_player_o", (req, res) => {
 games.get("/:name", (req, res) => {
     const name: string = req.params.name;
 
+    // TODO: check if user exists
     const games: Game[] = startedGames.filter(g => g.player_x === name || g.player_o === name);
 
     res.send(games);
@@ -53,12 +54,12 @@ games.get("/:name", (req, res) => {
 /**
  * Mark a tile by a player
  */
-games.put("/:name_player_x/:name_player_o?tile=tile", (req, res) => {
+games.put("/:name_player_x/:name_player_o", (req, res) => {
     const player_x: string = req.params.name_player_x;
     const player_o: string = req.params.name_player_o;
-    const tileNumber = req.params.tile;
+    const tileNumber: number = req.query.tile;
 
-    const game: Game = startedGames.some(g =>
+    const game: Game = startedGames.filter(g =>
         g.player_x === player_x && g.player_o === player_o
         || g.player_o === player_x && g.player_x === player_o
     )[0];

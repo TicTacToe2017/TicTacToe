@@ -4,15 +4,20 @@ export class Game {
 
     player_x: string;
     player_o: string;
-    tiles: Tile[];
+    private tiles: string[];
 
     constructor(player_x: string, player_o: string) {
         this.player_x = player_x;
         this.player_o = player_o;
-        this.tiles = [];
+        this.tiles = new Array(9);
+    }
+
+    public getTiles(): string[] {
+        return this.tiles;
     }
 
     public move(position: number): boolean {
+        // TODO: check if number is within range 0-8
         if (this.tiles[position]) {
             return false;
 
