@@ -71,7 +71,7 @@ You may create a new user. It takes a user name, which has to be unique, and a p
                 "winnings": "0"
             }
             
-+ Response 404
++ Response 404 (text)
 
     + Body
         
@@ -129,7 +129,7 @@ For a particular user, you may get all other users sharing a started game.
                 ] 
             }
         
-+ Response 404
++ Response 404 (text)
 
     + Body
         
@@ -147,7 +147,7 @@ You may access a game through the names of its two players.
 
     + Body
     
-            Game already started
+            Game already existxe
 
 ### Get Game Grid [GET]
 
@@ -167,15 +167,15 @@ You may get a game's grid in form of an array of 9 strings. Each string has a va
 
 ### Move [PUT]
 
-+ Response 202
++ Response 201
 
-+ Response 401
++ Response 401 (text)
 
     + Body
     
             User is not a player in this game
 
-+ Response 403
++ Response 403 (text)
 
     + Body
     
