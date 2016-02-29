@@ -64,13 +64,22 @@ games.put("/:name_player_x/:name_player_o?tile=tile", (req, res) => {
     )[0];
 
     if (game) {
-        if(game.tiles[tileNumber] === Tile.null){
-            (game.player_x === player_x) ? game.tiles[tileNumber] = Tile.x : game.tiles[tileNumber] = Tile.o;
-            //TODO. Checks if player has won
+        if (game.isUserCurrentPlayer("TODO")) {
+            if (game.move(tileNumber)) {
+                if (game.isFinished()) {
+                    res.status(201)
+                        .send("You win!");
+                } else {
+                    res.sendStatus(201);
+                }
+            } else {
                 res.status(403)
                     .send("Tile is already marked");
             }
         } else {
+            res.status(403)
+                .send("Wait for your opponent's to move");
+        }
     } else {
         res.status(404)
             .send("Game does not exists");
