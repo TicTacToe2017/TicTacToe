@@ -9,4 +9,12 @@ export class User {
         this.played = played;
         this.winnings = winnings;
     }
+    
+    setAsWinner(){
+        this.winnings++;
+    }
+    
+    increasePlayedGames(){
+        this.played++;
+    }
 }
