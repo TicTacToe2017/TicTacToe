@@ -1,5 +1,5 @@
 export enum Tile {
-    null,
+    undefined,
     "x",
     "o"
 };
