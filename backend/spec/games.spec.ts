@@ -30,7 +30,7 @@ describe("GET /games/name_player_x/name_player_o", () => {
 });
 
 describe("PUT /games/name_player_x/name_player_o?tile=tile", () => {
-    it("Make a movement in an unexisted game", (done) => {
+    it("should return a 404 status if making a movement in an inexisting game", (done) => {
         ApiClient.move("Spiderpig", "Batman", 0, (err, res) => {
             expect(res).toBeFalsy();
             expect(err).toEqual("Game does not exists");
@@ -38,7 +38,7 @@ describe("PUT /games/name_player_x/name_player_o?tile=tile", () => {
         });
     });
 
-    it("Make first movement", (done) => {
+    it("should return a 201 status if making a first movement in an existing game", (done) => {
         ApiClient.move("Spiderman", "Batman", 0, (err, res) => {
             expect(err).toBeFalsy();
             expect(res).toEqual("Created");
@@ -46,7 +46,7 @@ describe("PUT /games/name_player_x/name_player_o?tile=tile", () => {
         });
     });
 
-    it("Make second movement", (done) => {
+    it("should return a 201 status if making a second movement in an existing game", (done) => {
         ApiClient.move("Spiderman", "Batman", 1, (err, res) => {
             expect(err).toBeFalsy();
             expect(res).toEqual("Created");
@@ -54,7 +54,7 @@ describe("PUT /games/name_player_x/name_player_o?tile=tile", () => {
         });
     });
 
-    it("Repeat the movement", (done) => {
+    it("should return an error if moving in a marked tile", (done) => {
         ApiClient.move("Spiderman", "Batman", 1, (err, res) => {
             expect(res).toBeFalsy();
             expect(err).toEqual("Tile is already marked");
@@ -62,7 +62,7 @@ describe("PUT /games/name_player_x/name_player_o?tile=tile", () => {
         });
     });
 
-    it("Do a winner movement", (done) => {
+    it("should return a victory message if making a winning movement", (done) => {
         ApiClient.move("Spiderman", "Batman", 2, (err, res) => {
             expect(err).toBeFalsy();
             expect(res).toEqual("You win!");
