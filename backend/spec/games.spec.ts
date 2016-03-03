@@ -1,5 +1,5 @@
-import {ApiClient} from "./api-client";
-import {Game} from "../model/game";
+import ApiClient from "./api-client";
+import Game from "../model/game";
 
 describe("GET /games/name", () => {
     it("lists all games which an user plays in", (done) => {

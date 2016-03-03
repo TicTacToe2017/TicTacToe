@@ -1,6 +1,6 @@
-import * as request from "request";
 import User from "../model/user";
 import Game from "../model/game";
+import * as request from "request";
 
 export default class ApiClient {
 

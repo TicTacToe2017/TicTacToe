@@ -1,6 +1,6 @@
-import {Tile} from "./tile";
+import Tile from "./tile";
 
-export class Game {
+export default class Game {
 
     player_x: string;
     player_o: string;
@@ -49,9 +49,9 @@ export class Game {
 
     public isFinished(): boolean {
         // TODO: check if any player has marked 3 tiles in line
-        
+
         var tileSymbol : string  = this.tiles[4];
-        
+
         if(tileSymbol === Tile.x || tileSymbol === Tile.o )
         {
             if(this.tiles[3] === tileSymbol && this.tiles[5] === tileSymbol)
@@ -62,10 +62,10 @@ export class Game {
                 return true;
             if(this.tiles[2] === tileSymbol && this.tiles[6] === tileSymbol)
                 return true;
-        } 
-        
+        }
+
         tileSymbol = this.tiles[0];
-        
+
         if(tileSymbol === Tile.x || tileSymbol === Tile.o )
         {
             if(this.tiles[1] === tileSymbol && this.tiles[2] === tileSymbol)
@@ -73,17 +73,17 @@ export class Game {
             if(this.tiles[3] === tileSymbol && this.tiles[6] === tileSymbol)
                 return true;
         }
-        
+
         tileSymbol  = this.tiles[8];
-        
+
         if(tileSymbol === Tile.x || tileSymbol === Tile.o )
         {
             if(this.tiles[7] === tileSymbol && this.tiles[6] === tileSymbol)
                 return true;
             if(this.tiles[5] === tileSymbol && this.tiles[2] === tileSymbol)
                 return true;
-        }      
-        
+        }
+
         return false;
     }
 }

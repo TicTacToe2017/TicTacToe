@@ -1,5 +1,5 @@
-import {Game} from "../model/game";
-import {Tile} from "../model/tile";
+import Game from "../model/game";
+import Tile from "../model/tile";
 import {Router} from "express";
 
 const games: Router = Router();

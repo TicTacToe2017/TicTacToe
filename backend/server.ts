@@ -1,19 +1,20 @@
 /// <reference path="typings/tsd.d.ts" />
 
-import express = require("express");
-import bodyParser = require("body-parser");
+import * as express from "express";
+import {Express} from "express";
+import * as bodyParser from "body-parser";
 
-let app: express.Express = express();
+let app: Express = express();
 
 app.use(bodyParser.json());
 
-import index = require("./routes/index");
-import users = require("./routes/users");
-import games = require("./routes/games");
+import index from "./routes/index";
+import users from "./routes/users";
+import games from "./routes/games";
 
-app.use("/", index.default);
-app.use("/users", users.default);
-app.use("/games", games.default);
+app.use("/", index);
+app.use("/users", users);
+app.use("/games", games);
 
 app.listen(3000, () => {
     console.log("TicTacToe Service listening on port 3000...");
