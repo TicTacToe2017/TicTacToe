@@ -1,5 +1,5 @@
-import {ApiClient} from "./api-client";
-import {User} from "../model/user";
+import ApiClient from "./api-client";
+import User from "../model/user";
 
 describe("GET /users", () => {
     it("returns an array with all users", (done) => {
