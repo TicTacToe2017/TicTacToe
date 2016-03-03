@@ -7,11 +7,11 @@ let app: express.Express = express();
 
 app.use(bodyParser.json());
 
-import index = require("./routes/index");
-import users = require("./routes/users");
+import index from "./routes/index";
+import users from "./routes/users";
 
-app.use("/", index.default);
-app.use("/users", users.default);
+app.use("/", index);
+app.use("/users", users);
 
 app.listen(3000, () => {
     console.log("TicTacToe Service listening on port 3000...");

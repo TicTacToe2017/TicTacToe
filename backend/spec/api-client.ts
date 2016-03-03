@@ -1,7 +1,7 @@
-import {User} from "../model/user";
-import request = require("request");
+import User from "../model/user";
+import * as request from "request";
 
-export class ApiClient {
+export default class ApiClient {
 
     public static getUsers(callback: (error, users: User[]) => void): void {
         const url: string = "http://localhost:3000/users";

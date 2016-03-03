@@ -1,4 +1,4 @@
-export class User {
+export default class User {
 
     name: string;
     played: number;
@@ -9,12 +9,12 @@ export class User {
         this.played = played;
         this.winnings = winnings;
     }
-    
-    setAsWinner(){
+
+    setAsWinner() {
         this.winnings++;
     }
-    
-    increasePlayedGames(){
+
+    increasePlayedGames() {
         this.played++;
     }
 }
