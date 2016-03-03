@@ -34,6 +34,7 @@ describe("PUT /games/name_player_x/name_player_o?tile=tile", () => {
         ApiClient.move("Spiderpig", "Batman", 0, (err, res) => {
             expect(res).toBeFalsy();
             expect(err).toEqual("Game does not exists");
+            done();
         });
     });
 
