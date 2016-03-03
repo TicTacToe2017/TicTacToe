@@ -1,14 +1,6 @@
-<<<<<<< HEAD
-import User from "../model/user";
 import * as request from "request";
-||||||| merged common ancestors
-import {User} from "../model/user";
-import request = require("request");
-=======
-import {User} from "../model/user";
-import {Game} from "../model/game";
-import request = require("request");
->>>>>>> games
+import User from "../model/user";
+import Game from "../model/game";
 
 export default class ApiClient {
 
@@ -119,11 +111,11 @@ export default class ApiClient {
 
         request.post(url, null, requestCallback);
     }
-    
+
     public static move(
         name_player_x: string,
         name_player_o: string,
-        tileNumber : number,
+        tileNumber: number,
         callback: (error, res) => void
     ): void {
         const url: string = `http://localhost:3000/games/${name_player_x}/${name_player_o}?tile=${tileNumber}`;
@@ -133,7 +125,7 @@ export default class ApiClient {
 
             } else if (response.statusCode !== 201) {
                 callback(body, null);
-          
+
             } else {
                 callback(null, body);
             }
@@ -141,5 +133,5 @@ export default class ApiClient {
 
         request.post(url, null, requestCallback);
     }
-    
+
 }
