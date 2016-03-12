@@ -1,5 +1,3 @@
-/// <reference path="typings/tsd.d.ts" />
-
 import * as express from "express";
 import {Express} from "express";
 import * as bodyParser from "body-parser";
