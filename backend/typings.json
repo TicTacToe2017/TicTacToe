@@ -1,0 +1,14 @@
+{
+  "name": "tic-tac-toe",
+  "version": false,
+  "ambientDependencies": {
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#aefd8146158b9f17c9eb79bbf158e6d8d3c2a87b",
+    "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#85af69c91599a6c904618545f0613970e1ff3f64",
+    "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#85af69c91599a6c904618545f0613970e1ff3f64",
+    "mime": "github:DefinitelyTyped/DefinitelyTyped/mime/mime.d.ts#85af69c91599a6c904618545f0613970e1ff3f64",
+    "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#85af69c91599a6c904618545f0613970e1ff3f64",
+    "body-parser": "github:DefinitelyTyped/DefinitelyTyped/body-parser/body-parser.d.ts#85af69c91599a6c904618545f0613970e1ff3f64",
+    "request": "github:DefinitelyTyped/DefinitelyTyped/request/request.d.ts#aefd8146158b9f17c9eb79bbf158e6d8d3c2a87b",
+    "form-data": "github:DefinitelyTyped/DefinitelyTyped/form-data/form-data.d.ts#aefd8146158b9f17c9eb79bbf158e6d8d3c2a87b"
+  }
+}
