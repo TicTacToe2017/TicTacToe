@@ -4,7 +4,7 @@ import * as bodyParser from "body-parser";
 import DB from "./repository/db";
 
 DB.init()
-    .then(() => { console.log("DB Connected"); });
+    .then(() => { console.log("DB Connected and data added!"); });
 
 let app: Express = express();
 
