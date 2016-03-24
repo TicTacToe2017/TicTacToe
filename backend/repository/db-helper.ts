@@ -43,4 +43,20 @@ export default class DbHelper {
             .find({})
             .toArray();
     }
+
+    static addUser(user: User): Promise<any> {
+        return this.db
+            .collection("users")
+            .insertOne(new User(user.name, 0, 0));
+    }
+
+    static getUserByName(name: string): Promise<User> {
+        return this.db
+            .collection("users")
+            .find({ name: name })
+            .toArray()
+            .then((result: any[]) => {
+                return result[0] as User;
+            });
+    }
 }
