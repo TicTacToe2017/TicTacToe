@@ -56,7 +56,7 @@ export default class DbHelper {
             .find({ name: name })
             .toArray()
             .then((result: any[]) => {
-                return result[0] as User;
+                return result[0];
             });
     }
 }
