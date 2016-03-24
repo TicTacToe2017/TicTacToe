@@ -1,6 +1,6 @@
 import User from "../model/user";
 import {Router} from "express";
-import DB from "../repository/db";
+import DbHelper from "../repository/db-helper";
 
 const users: Router = Router();
 
@@ -15,7 +15,7 @@ const mockedUsersArray: User[] = [
  * Gets all users
  */
 users.get("/", (req, res) => {
-    DB.getUsers()
+    DbHelper.getUsers()
         .then((users: User[]) => {
             res.send(users);
         });

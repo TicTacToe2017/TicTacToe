@@ -3,32 +3,32 @@ import {Promise} from "es6-promise";
 import User from "../model/user";
 import Game from "../model/game";
 
-export default class DB {
+export default class DbHelper {
 
     private static URI: string = "mongodb://localhost/tictactoe";
-    private static DB: mongodb.Db;
-
-    // private static server = new mongodb.Server("localhost", 27017);
-    // private static db = new mongodb.Db("tictactoe", DB.server, { w: 1 });
+    private static db: mongodb.Db;
 
     static init(): Promise<any> {
         return this
             .connect()
             .then(() => {
-                return this.insertDummyData();
+                console.log("Creating mock data...");
+                this.insertDummyData();
+                console.log("Mock data inserted!");
             });
     }
 
     static connect(): Promise<any> {
         return mongodb.MongoClient
             .connect(this.URI)
-            .then((DB: mongodb.Db) => {
-                this.DB = DB;
+            .then((db: mongodb.Db) => {
+                this.db = db;
+                console.log("Connected to DB!");
             });
     }
 
     static insertDummyData(): Promise<any> {
-        return this.DB
+        return this.db
             .collection("users")
             .insertMany([
                 new User("Spiderman", 0, 0),
@@ -38,7 +38,7 @@ export default class DB {
     }
 
     static getUsers(): Promise<User[]> {
-        return this.DB
+        return this.db
             .collection("users")
             .find({})
             .toArray();
