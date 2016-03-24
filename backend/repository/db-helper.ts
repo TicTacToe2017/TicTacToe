@@ -59,4 +59,27 @@ export default class DbHelper {
                 return result[0];
             });
     }
+
+    static getGameByPlayerNames(name_player_x: string, name_player_o: string): Promise<Game> {
+        return this.db
+            .collection("games")
+            .find({
+                player_x: name_player_x,
+                player_o: name_player_o
+            })
+            .toArray()
+            .then((result: any[]) => {
+                return Game.fromJson(result[0]);
+            });
+    }
+
+    static addGame(name_player_x: string, name_player_o: string): Promise<any> {
+        return this.db
+            .collection("games")
+            .insertOne(new Game(name_player_x, name_player_o));
+    }
+
+    static getGamesByUserName(name: string): Promise<Game[]> {
+        return undefined;
+    }
 }

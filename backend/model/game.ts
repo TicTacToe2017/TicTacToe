@@ -50,40 +50,44 @@ export default class Game {
     public isFinished(): boolean {
         // TODO: check if any player has marked 3 tiles in line
 
-        var tileSymbol : string  = this.tiles[4];
+        var tileSymbol: string = this.tiles[4];
 
-        if(tileSymbol === Tile.x || tileSymbol === Tile.o )
-        {
-            if(this.tiles[3] === tileSymbol && this.tiles[5] === tileSymbol)
+        if (tileSymbol === Tile.x || tileSymbol === Tile.o) {
+            if (this.tiles[3] === tileSymbol && this.tiles[5] === tileSymbol)
                 return true;
-            if(this.tiles[1] === tileSymbol && this.tiles[7] === tileSymbol)
+            if (this.tiles[1] === tileSymbol && this.tiles[7] === tileSymbol)
                 return true;
-            if(this.tiles[0] === tileSymbol && this.tiles[8] === tileSymbol)
+            if (this.tiles[0] === tileSymbol && this.tiles[8] === tileSymbol)
                 return true;
-            if(this.tiles[2] === tileSymbol && this.tiles[6] === tileSymbol)
+            if (this.tiles[2] === tileSymbol && this.tiles[6] === tileSymbol)
                 return true;
         }
 
         tileSymbol = this.tiles[0];
 
-        if(tileSymbol === Tile.x || tileSymbol === Tile.o )
-        {
-            if(this.tiles[1] === tileSymbol && this.tiles[2] === tileSymbol)
+        if (tileSymbol === Tile.x || tileSymbol === Tile.o) {
+            if (this.tiles[1] === tileSymbol && this.tiles[2] === tileSymbol)
                 return true;
-            if(this.tiles[3] === tileSymbol && this.tiles[6] === tileSymbol)
+            if (this.tiles[3] === tileSymbol && this.tiles[6] === tileSymbol)
                 return true;
         }
 
-        tileSymbol  = this.tiles[8];
+        tileSymbol = this.tiles[8];
 
-        if(tileSymbol === Tile.x || tileSymbol === Tile.o )
-        {
-            if(this.tiles[7] === tileSymbol && this.tiles[6] === tileSymbol)
+        if (tileSymbol === Tile.x || tileSymbol === Tile.o) {
+            if (this.tiles[7] === tileSymbol && this.tiles[6] === tileSymbol)
                 return true;
-            if(this.tiles[5] === tileSymbol && this.tiles[2] === tileSymbol)
+            if (this.tiles[5] === tileSymbol && this.tiles[2] === tileSymbol)
                 return true;
         }
 
         return false;
+    }
+
+    public static fromJson(json): Game {
+        const jsonGame = json as Game;
+        const game = new Game(jsonGame.player_x, jsonGame.player_o);
+        game.tiles = jsonGame.tiles;
+        return game;
     }
 }
