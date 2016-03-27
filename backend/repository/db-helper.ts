@@ -99,15 +99,23 @@ export default class DbHelper {
             .toArray();
     }
 
-    static setGameTile(player_x: string, player_o: string, tileNumber: number): Promise<{}> {
-        let game = this.getGameByPlayerNames(player_x, player_o);
-        game[tileNumber] = player_x;
-        return this.db
-            .collection("games")
-            .updateOne(
-                { "player_x": player_x, "player_o": player_o },
-                {"game": game}
-            );
+    static setGameTile(player_x: string, player_o: string, tileNumber: number, symbol: string): Promise<any> {
+        return this.getGameByPlayerNames(player_x, player_o)
+            .then((game) => {
+                let tiles = game.getTiles();
+                tiles[tileNumber] = symbol;
+                return tiles;
+             })
+            .then((tiles) => {
+                this.db
+                    .collection("games")
+                    .updateOne({ $or: [
+                        { player_x: player_x, player_o: player_o },
+                        { player_x: player_o, player_o: player_x },
+                    ]},
+                        {"tiles": tiles}
+                    );
+            });
     }
 
 }
