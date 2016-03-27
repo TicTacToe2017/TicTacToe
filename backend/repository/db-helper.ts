@@ -80,6 +80,24 @@ export default class DbHelper {
     }
 
     static getGamesByUserName(name: string): Promise<Game[]> {
-        return undefined;
+        return this.db
+            .collection("games")
+            .find({ $or: [
+                { player_x: name },
+                { player_y: name }
+             ] })
+            .toArray();
     }
+
+    static setGameTile(player_x: string, player_o: string, tileNumber: number): Promise<{}> {
+        let game = this.getGameByPlayerNames(player_x, player_o);
+        game[tileNumber] = player_x;
+        return this.db
+            .collection("games")
+            .updateOne(
+                { "player_x": player_x, "player_o": player_o },
+                {"game": game}
+            );
+    }
+
 }
