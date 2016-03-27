@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="src/resources/styles/site.css"/>
+    <title>Tic-Tac-Toe</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <form action="" method="POST" id="register" class="pull-right">
+            <input type="submit" class="btn btn-lg btn-secondary pull-right" value="Register"/>                
+        </form>  
+        <h1 class="text-center title">Tic Tac Toe by Jorge & Josemi for Pablonete</h1>
+        <p class="lead text-center">This game can be addictive</p>
+      </header>
+      
+      <div id="board"></div>
+      <div class="alerts welcome"></div>
+      <div class="notifications"></div>
+
+      <form action="" method="POST" id="enterPlayers" class="text-center">
+        <div class="input-group">
+          <div class="input-group-addon">Player X</div>
+          <input name="player-x" class="form-control" type="text" value=""/>
+        </div>
+        <div class="input-group">
+          <div class="input-group-addon">Player O</div>
+          <input name="player-o" class="form-control" type="text" value=""/>
+        </div>
+        <div class="text-center">
+          <input type="submit" class="btn btn-lg btn-primary" value="Start"/>         
+        </div>     
+      </form>
+      
+      <form action="" method="POST" id="createUser" class="text-center" hidden="true">
+        <div class="input-group">
+          <div class="input-group-addon">User</div>
+          <input name="user" class="form-control" type="text" value="" id="user"/>
+        </div>
+        <div class="input-group">
+          <div class="input-group-addon">Password</div>
+          <input name="password" class="form-control" type="password" value="" id="password"/>
+        </div>
+        <div class="text-center">
+          <input type="submit" class="btn btn-lg btn-primary" value="Continue" id="continue"/>
+        </div>     
+      </form>
+      
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="src/app.js"></script>
+  </body>
+</html>
