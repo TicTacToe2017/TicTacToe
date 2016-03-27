@@ -12,6 +12,11 @@ export default class DbHelper {
         return this
             .connect()
             .then(() => {
+                console.log("Deleting users data...");
+                this.dropAllUsersData();
+                console.log("Users data deleted!");
+            })
+            .then(() => {
                 console.log("Creating mock data...");
                 this.insertDummyData();
                 console.log("Mock data inserted!");
@@ -26,6 +31,11 @@ export default class DbHelper {
                 console.log("Connected to DB!");
             });
     }
+
+    static dropAllUsersData(): Promise<any> {
+        return this.db
+            .dropCollection("users");
+     }
 
     static insertDummyData(): Promise<any> {
         return this.db
