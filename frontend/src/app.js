@@ -14,8 +14,7 @@
 
 			initialize: function() {
 				this.data.gameOver = false;
-				this.setPlayerNames();
-				this.retrieveStats();
+				this.setPlayerNames();				
 				this.assignRoles();
 				this.prepareBoard();
 				this.updateNotifications();
@@ -33,18 +32,24 @@
 
                 $.get("http://localhost:3000/users/"+this.data.playerX, function(data, status){
                     if (data) {
-                        this.data.playerXStats = {wins: data.winnings, loses: data.played}
+                        this.data.playerXStats = { wins: data.winnings, loses: data.played }
+
+                        $.get("http://localhost:3000/users/"+this.data.playerO, function(data, status){
+                            if (data) {
+                                return this.data.playerOStats = {wins: data.winnings, loses: data.played}
+                            }
+                            else {
+                                return Tic.showAlert("Player O doesn't exist");
+                            }
+                        });
+
                     }
+                    else {
+                        return Tic.showAlert("Player X doesn't exist");
+                     }
                 });
 
-                $.get("http://localhost:3000/users/"+this.data.playerO, function(data, status){
-                    if (data) {
-                        this.data.playerOStats = {wins: data.winnings, loses: data.played}
-                    }
-                });
-
-                return this.data.playerOStats;
-
+                
 			},
 
             getPlayerName: function(symbol) {
@@ -277,8 +282,9 @@
 				return Tic.showAlert("Player names cannot be empty");
 			} else if (namesIndentical) {
 				return Tic.showAlert("Player names cannot be identical");
-			} else {
-				return Tic.initialize();
+            } else {
+                if(Tic.retrieveStats())
+                    return Tic.initialize();
             }
 
         });
@@ -290,40 +296,45 @@
         });
 
         $("#createUser").on("submit", function(evt) {
-
-            var user = $('#user').text().trim;
-            var password = $('#password').text().trim();
-
             evt.preventDefault();
+            $inputs = $("input[type='text']");
+            var user = $("input[id='user']")[0].value;
+            var password = $("input[id='password']")[0].value;
 
-            if (user !== "" && password !== "") {
-                return Tic.showAlert("User and password cannot be empty");
+            if (user === "" || password === "") {
+                return Tic.showAlert("User or password cannot be empty");
             }
 
-            // CALL API TO CREATE A NEW USER
-            $.post("http://localhost:3000/users",
-                {
-                    'user': user,
+            $.ajax({
+                url: 'http://localhost:3000/users',
+                type: 'post',
+                data: {
+                    'name': user,
                     'password': password
                 },
-                function(data, status) {
-                    if (status !== 201) {
-                        Tic.showAlert("User hasn't been created");                        
-                    }
-                    else {
-                        Tic.showAlert("Created new user");
-                    }
-                    
+                contentType: 'text/plain',
+                xhrFields: {   
+                    withCredentials: false
+                },
+                headers: {                    
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                dataType: 'raw',
+                success: function (data) {
+                    Tic.showAlert("Created new user");
+                },
+                error: function(data) {
+                    Tic.showAlert("Error creating a new user");
                 }
-            );
-            
+            });
+ 
             $('#createUser').hide();
             $('#enterPlayers').show();
         });        
 
 		return $("body").on("click", ".play-again", function() {
 			return Tic.initialize();
-		});
+        });
 
 	});
 
