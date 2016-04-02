@@ -52,7 +52,8 @@ users.get("/:name", (req, res) => {
         res.json(user);
 
     } else {
-        res.sendStatus(404);
+        res.status(404)
+            .send("User doesn't exist");
     }
 });
 
