@@ -14,7 +14,7 @@
 
 			initialize: function() {
 				this.data.gameOver = false;
-				this.setPlayerNames();				
+				//this.setPlayerNames();				
 				this.assignRoles();
 				this.prepareBoard();
 				this.updateNotifications();
@@ -29,28 +29,31 @@
 			},
 
             retrieveStats: function() {
-
-                $.get("http://localhost:3000/users/"+this.data.playerX, function(data, status){
-                    if (data) {
-                        this.data.playerXStats = { wins: data.winnings, loses: data.played }
-
-                        $.get("http://localhost:3000/users/"+this.data.playerO, function(data, status){
-                            if (data) {
-                                return this.data.playerOStats = {wins: data.winnings, loses: data.played}
-                            }
-                            else {
-                                return Tic.showAlert("Player O doesn't exist");
-                            }
-                        });
-
+                var that = this;
+                $.get("http://localhost:3000/users/" + this.data.playerX, function(data, status) {
+                    if (status === 404) {
+                        Tic.showAlert("Player X doesn't exist");
+                        return false;
                     }
                     else {
-                        return Tic.showAlert("Player X doesn't exist");
-                     }
-                });
+                        if (data) {
+                            that.data.playerXStats = { wins: data.winnings, loses: data.played }
 
-                
-			},
+                            $.get("http://localhost:3000/users/" + that.data.playerO, function(data, status) {
+                                if (status === 404) {
+                                    Tic.showAlert("Player X doesn't exist");
+                                    return false;
+                                }
+                                else {
+                                    if (data) {
+                                        return that.data.playerOStats = { wins: data.winnings, loses: data.played }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                })
+            },
 
             getPlayerName: function(symbol) {
 
@@ -274,15 +277,14 @@
 			var $inputs, namesIndentical, namesNotEntered;
 			evt.preventDefault();
 			$inputs = $("input[type='text']");
-			namesNotEntered = $inputs.filter(function() {
-				return this.value.trim() !== "";
-			}).length !== 2;
+            namesNotEntered = $inputs[0].value === "" || $inputs[1].value === "";
 			namesIndentical = $inputs[0].value === $inputs[1].value;
 			if (namesNotEntered) {
 				return Tic.showAlert("Player names cannot be empty");
 			} else if (namesIndentical) {
 				return Tic.showAlert("Player names cannot be identical");
             } else {
+                Tic.setPlayerNames();
                 if(Tic.retrieveStats())
                     return Tic.initialize();
             }
@@ -292,7 +294,17 @@
         $("#register").on("submit", function(evt) {
             evt.preventDefault();
             $('#enterPlayers').hide();
-            $('#createUser').show();            
+            $('#createUser').show();
+
+            //TEST
+            // $.get("http://localhost:3000/users/",{},
+            //                 function(data, status) {
+            //                     if (data) {
+            //                         Tic.showAlert("YEAHH");                        
+            //                     }
+            //                 }
+            //             );
+
         });
 
         $("#createUser").on("submit", function(evt) {
@@ -305,28 +317,21 @@
                 return Tic.showAlert("User or password cannot be empty");
             }
 
-            $.ajax({
-                url: 'http://localhost:3000/users',
-                type: 'post',
-                data: {
-                    'name': user,
-                    'password': password
-                },
-                contentType: 'text/plain',
-                xhrFields: {   
-                    withCredentials: false
-                },
-                headers: {                    
-                    "Content-Type": "application/json; charset=utf-8"
-                },
-                dataType: 'raw',
-                success: function (data) {
-                    Tic.showAlert("Created new user");
-                },
-                error: function(data) {
-                    Tic.showAlert("Error creating a new user");
-                }
-            });
+            var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "http://localhost:3000/users",
+  "method": "POST",
+  "headers": {
+    "content-type": "application/json"
+  },
+  "processData": false,
+  "data": "{\"name\": \"" + user + "\",\"password\": \"" + password + "\"\n}"
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
  
             $('#createUser').hide();
             $('#enterPlayers').show();
