@@ -29,30 +29,35 @@
 			},
 
             retrieveStats: function() {
-                var that = this;
-                $.get("http://localhost:3000/users/" + this.data.playerX, function(data, status) {
-                    if (status === 404) {
-                        Tic.showAlert("Player X doesn't exist");
-                        return false;
-                    }
-                    else {
-                        if (data) {
-                            that.data.playerXStats = { wins: data.winnings, loses: data.played }
 
-                            $.get("http://localhost:3000/users/" + that.data.playerO, function(data, status) {
-                                if (status === 404) {
-                                    Tic.showAlert("Player X doesn't exist");
-                                    return false;
-                                }
-                                else {
-                                    if (data) {
-                                        return that.data.playerOStats = { wins: data.winnings, loses: data.played }
-                                    }
-                                }
-                            });
-                        }
+                var that = this;
+
+                var settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": "http://localhost:3000/users/" + this.data.playerX,
+                    "method": "GET",
+                    "processData": false                
+                }
+
+                $.ajax(settings).done(function (data) {
+                    that.data.playerXStats = { wins: data.winnings, loses: data.played }
+
+                    var settings = {
+                        "async": true,
+                        "crossDomain": true,
+                        "url": "http://localhost:3000/users/" + that.data.playerO,
+                        "method": "GET",
+                        "processData": false                
                     }
-                })
+
+                    $.ajax(settings).done(function (data) {
+                        that.data.playerOStats = { wins: data.winnings, loses: data.played }
+                        return true;
+                    });
+
+                });
+            
             },
 
             getPlayerName: function(symbol) {
@@ -74,8 +79,7 @@
                             $.get("http://localhost:3000/games/" + this.data.playerX + "/" + this.data.playerO,
                                 function(data, status) {
                                     if (data) {
-                                        // PRINT TILES
-                                        
+                                        // PRINT TILES                                        
                                     }
                                 }
                             );
@@ -83,8 +87,7 @@
                          }
                         else {
                             Tic.showAlert("Created new game");
-                        }
-                        
+                        }                        
                     }
                 );
 
@@ -285,7 +288,7 @@
 				return Tic.showAlert("Player names cannot be identical");
             } else {
                 Tic.setPlayerNames();
-                if(Tic.retrieveStats())
+                if(Tic.retrieveStats()===true)
                     return Tic.initialize();
             }
 
@@ -295,16 +298,6 @@
             evt.preventDefault();
             $('#enterPlayers').hide();
             $('#createUser').show();
-
-            //TEST
-            // $.get("http://localhost:3000/users/",{},
-            //                 function(data, status) {
-            //                     if (data) {
-            //                         Tic.showAlert("YEAHH");                        
-            //                     }
-            //                 }
-            //             );
-
         });
 
         $("#createUser").on("submit", function(evt) {
@@ -318,20 +311,20 @@
             }
 
             var settings = {
-  "async": true,
-  "crossDomain": true,
-  "url": "http://localhost:3000/users",
-  "method": "POST",
-  "headers": {
-    "content-type": "application/json"
-  },
-  "processData": false,
-  "data": "{\"name\": \"" + user + "\",\"password\": \"" + password + "\"\n}"
-}
+                "async": true,
+                "crossDomain": true,
+                "url": "http://localhost:3000/users",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "processData": false,
+                "data": "{\"name\": \"" + user + "\",\"password\": \"" + password + "\"\n}"
+            }
 
-$.ajax(settings).done(function (response) {
-  console.log(response);
-});
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
  
             $('#createUser').hide();
             $('#enterPlayers').show();
