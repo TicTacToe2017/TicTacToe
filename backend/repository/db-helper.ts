@@ -73,10 +73,10 @@ export default class DbHelper {
     static getGameByPlayerNames(name_player_x: string, name_player_o: string): Promise<Game> {
         return this.db
             .collection("games")
-            .find({
-                player_x: name_player_x,
-                player_o: name_player_o
-            })
+            .find({ $or: [
+                        { player_x: name_player_x, player_o: name_player_o },
+                        { player_x: name_player_o, player_o: name_player_x },
+                    ]})
             .toArray()
             .then((result: any[]) => {
                 return Game.fromJson(result[0]);
