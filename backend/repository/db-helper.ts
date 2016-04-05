@@ -101,12 +101,12 @@ export default class DbHelper {
 
     static setGameTile(player_x: string, player_o: string, tileNumber: number, symbol: string): Promise<any> {
         return this.getGameByPlayerNames(player_x, player_o)
-            .then((game) => {
+            .then((game: Game) => {
                 let tiles = game.getTiles();
                 tiles[tileNumber] = symbol;
                 return tiles;
              })
-            .then((tiles) => {
+            .then((tiles: string[]) => {
                 this.db
                     .collection("games")
                     .updateOne({ $or: [
