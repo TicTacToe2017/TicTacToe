@@ -113,7 +113,7 @@ export default class DbHelper {
                         { player_x: player_x, player_o: player_o },
                         { player_x: player_o, player_o: player_x },
                     ]},
-                        {"tiles": tiles}
+                        { "tiles": tiles }
                     );
             });
     }
