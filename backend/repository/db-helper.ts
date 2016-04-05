@@ -94,7 +94,7 @@ export default class DbHelper {
             .collection("games")
             .find({ $or: [
                 { player_x: name },
-                { player_y: name }
+                { player_o: name }
              ] })
             .toArray();
     }
