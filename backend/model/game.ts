@@ -17,18 +17,25 @@ export default class Game {
         return this.tiles;
     }
 
-    public move(position: number): boolean {
-        if (this.tiles[position]) {
-            return false;
+    public move(position: number): Promise<boolean> {
+        let promise: Promise<boolean> = new Promise((
+            resolve: (value: boolean) => void,
+            reject: (value: any) => void
+        ) => {
+            if (this.tiles[position]) {
+                resolve(false);
 
-        } else {
-            this.tiles[position] = this.currentPlayer() === this.player_x
-                ? Tile.x
-                : Tile.o;
+            } else {
+                this.tiles[position] = this.currentPlayer() === this.player_x
+                    ? Tile.x
+                    : Tile.o;
 
-            dbHelper.updateTiles(this)
-                .then(() => { return true; });
-        }
+                dbHelper.updateTiles(this)
+                    .then(() => { resolve(true); });
+            }
+        });
+
+        return promise;
     }
 
     public currentPlayer(): string {

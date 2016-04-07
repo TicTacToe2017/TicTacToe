@@ -76,24 +76,28 @@ games.put("/:name_player_x/:name_player_o", (req, res) => {
     // TODO: is this validation good placed?
     if (tileIndex > 8 || tileIndex < 0) {
         res.status(404)
-        .send("Tile index must be between 0 and 8");
+            .send("Tile index must be between 0 and 8");
     }
 
+    // TODO: refactor this kamehameha
     DbHelper
         .getGameByPlayerNames(name_player_x, name_player_o)
         .then((game: Game) => {
             if (game) {
-                if (game.move(tileIndex)) {
-                    if (game.isFinished()) {
-                        res.status(201)
-                            .send("You win!");
-                    } else {
-                        res.sendStatus(201);
-                    }
-                } else {
-                    res.status(403)
-                        .send("Tile is already marked");
-                }
+                game.move(tileIndex)
+                    .then((result: boolean) => {
+                        if (result) {
+                            if (game.isFinished()) {
+                                res.status(201)
+                                    .send("You win!");
+                            } else {
+                                res.sendStatus(201);
+                            }
+                        } else {
+                            res.status(403)
+                                .send("Tile is already marked");
+                        }
+                    });
             } else {
                 res.status(404)
                     .send("Game does not exists");
