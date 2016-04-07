@@ -99,7 +99,7 @@ export default class DbHelper {
             .find({ $or: [
                 { player_x: name },
                 { player_o: name }
-             ] })
+             ]})
             .toArray();
     }
 
