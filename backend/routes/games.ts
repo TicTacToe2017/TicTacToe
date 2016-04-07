@@ -39,7 +39,7 @@ games.get("/:name_player_x/:name_player_o", (req, res) => {
         .then((game: Game) => {
             if (game) {
                 res.status(200)
-                    .json(game.getTiles());
+                    .json(game);
             } else {
                 res.status(404)
                     .send("Game does not exists");
