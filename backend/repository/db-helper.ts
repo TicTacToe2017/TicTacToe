@@ -13,7 +13,7 @@ export default class DbHelper {
             .connect()
             .then(() => {
                 console.log("Deleting users data...");
-                this.dropAllUsersData();
+                this.dropDatabase();
                 console.log("Users data deleted!");
             })
             .then(() => {
@@ -32,10 +32,10 @@ export default class DbHelper {
             });
     }
 
-    static dropAllUsersData(): Promise<any> {
+    static dropDatabase(): Promise<any> {
         return this.db
-            .dropCollection("users");
-     }
+            .dropDatabase();
+    }
 
     static insertDummyData(): Promise<any> {
         return this.db
