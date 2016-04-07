@@ -18,7 +18,6 @@ export default class Game {
     }
 
     public move(position: number): boolean {
-        // TODO: check if number is within range 0-8
         if (this.tiles[position]) {
             return false;
 

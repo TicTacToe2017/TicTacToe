@@ -73,6 +73,12 @@ games.put("/:name_player_x/:name_player_o", (req, res) => {
     const name_player_o: string = req.params.name_player_o;
     const tileIndex: number = req.query.tile;
 
+    // TODO: is this validation good placed?
+    if (tileIndex > 8 || tileIndex < 0) {
+        res.status(404)
+        .send("Tile index must be between 0 and 8");
+    }
+
     DbHelper
         .getGameByPlayerNames(name_player_x, name_player_o)
         .then((game: Game) => {
