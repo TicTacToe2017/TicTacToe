@@ -75,7 +75,7 @@ export default class DbHelper {
             .collection("games")
             .find({ $or: [
                         { player_x: name_player_x, player_o: name_player_o },
-                        { player_x: name_player_o, player_o: name_player_x },
+                        { player_x: name_player_o, player_o: name_player_x }
                     ]})
             .toArray()
             .then((result: any[]) => {
