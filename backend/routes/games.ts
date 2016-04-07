@@ -77,22 +77,16 @@ games.put("/:name_player_x/:name_player_o", (req, res) => {
         .getGameByPlayerNames(name_player_x, name_player_o)
         .then((game: Game) => {
             if (game) {
-                // TODO: Refactor this AND make movement persistent
-                if (game.isUserCurrentPlayer("TODO")) {
-                    if (game.move(tileIndex)) {
-                        if (game.isFinished()) {
-                            res.status(201)
-                                .send("You win!");
-                        } else {
-                            res.sendStatus(201);
-                        }
+                if (game.move(tileIndex)) {
+                    if (game.isFinished()) {
+                        res.status(201)
+                            .send("You win!");
                     } else {
-                        res.status(403)
-                            .send("Tile is already marked");
+                        res.sendStatus(201);
                     }
                 } else {
                     res.status(403)
-                        .send("Wait for your opponent's to move");
+                        .send("Tile is already marked");
                 }
             } else {
                 res.status(404)

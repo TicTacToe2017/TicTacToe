@@ -1,4 +1,5 @@
 import Tile from "./tile";
+import dbHelper from "../repository/db-helper";
 
 export default class Game {
 
@@ -26,7 +27,8 @@ export default class Game {
                 ? Tile.x
                 : Tile.o;
 
-            return true;
+            dbHelper.updateTiles(this)
+                .then(() => { return true; });
         }
     }
 
