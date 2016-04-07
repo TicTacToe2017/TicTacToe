@@ -79,7 +79,11 @@ export default class DbHelper {
                     ]})
             .toArray()
             .then((result: any[]) => {
-                return Game.fromJson(result[0]);
+                if (result.length) {
+                    return Game.fromJson(result[0]);
+                } else {
+                    return undefined;
+                }
             });
     }
 
