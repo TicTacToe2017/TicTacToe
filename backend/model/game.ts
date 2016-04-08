@@ -17,30 +17,16 @@ export default class Game {
         return this.tiles;
     }
 
-    public move(position: number): Promise<boolean> {
-        let promise: Promise<boolean> = new Promise((
-            resolve: (value: boolean) => void,
-            reject: (value: any) => void
-        ) => {
-            if (this.tiles[position]) {
-                resolve(false);
-
-            } else {
-                this.tiles[position] = this.currentPlayer() === this.player_x
-                    ? Tile.x
-                    : Tile.o;
-
-                dbHelper.updateTiles(this)
-                    .then(() => { resolve(true); });
-            }
-        });
-
-        return promise;
+    public move(position: number): Promise<any> {
+        return this.makeMovement(position)
+            .then((result: boolean) => {
+                return this.checkMovementResult(result);
+            });
     }
 
     public currentPlayer(): string {
         const movementCount: number = this.tiles
-            .filter(t => t !== undefined)
+            .filter(t => t !== null)
             .length;
 
         return movementCount % 2
@@ -49,16 +35,13 @@ export default class Game {
     }
 
     public isUserCurrentPlayer(name: string): boolean {
-        // TODO: check if requesting user is actually the current player
-        // return name === this.currentPlayer();
-
-        return true;
+        return name === this.currentPlayer();
     }
 
-    public isFinished(): boolean {
+    private isFinished(): boolean {
         // TODO: check if any player has marked 3 tiles in line
 
-        var tileSymbol: string = this.tiles[4];
+        let tileSymbol: string = this.tiles[4];
 
         if (tileSymbol === Tile.x || tileSymbol === Tile.o) {
             if (this.tiles[3] === tileSymbol && this.tiles[5] === tileSymbol)
@@ -91,6 +74,50 @@ export default class Game {
 
         return false;
     }
+
+    private makeMovement(position: number): Promise<boolean> {
+        let promise: Promise<boolean> = new Promise((
+            resolve: (value: boolean) => void,
+            reject: (value: any) => void
+        ) => {
+            if (this.tiles[position]) {
+                resolve(false);
+
+            } else {
+                this.tiles[position] = this.currentPlayer() === this.player_x
+                    ? Tile.x
+                    : Tile.o;
+
+                dbHelper.updateTiles(this)
+                    .then(() => { resolve(true); });
+            }
+        });
+
+        return promise;
+    }
+
+    private checkMovementResult(result): Promise<any> {
+
+        let promise: Promise<any> = new Promise((
+            resolve: (value: any) => void,
+            reject: (value: any) => void
+        ) => {
+
+            if (result) {
+                if (this.isFinished()) {
+                    dbHelper.deleteGame(this);
+                    resolve({ status: 201, message: "You win!" });
+                } else {
+                    resolve({ status: 200, message: "Tile marked" });
+                }
+            } else {
+                resolve({ status: 403, message: "Tile is already marked" });
+            }
+        });
+
+        return promise;
+
+     };
 
     public static fromJson(json): Game {
         const jsonGame = json as Game;
