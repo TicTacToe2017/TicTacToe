@@ -93,6 +93,12 @@ export default class DbHelper {
             .insertOne(new Game(name_player_x, name_player_o));
     }
 
+    static deleteGame(game: Game): Promise<any> {
+        return this.db
+            .collection("games")
+            .deleteOne(game);
+    }
+
     static getGamesByUserName(name: string): Promise<Game[]> {
         return this.db
             .collection("games")
