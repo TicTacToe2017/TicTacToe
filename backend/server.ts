@@ -1,6 +1,12 @@
 import * as express from "express";
 import {Express} from "express";
 import * as bodyParser from "body-parser";
+import DbHelper from "./repository/db-helper";
+
+console.log("Initialising DB...");
+DbHelper
+    .init()
+    .then(() => { console.log("DB ready!"); });
 
 let app: Express = express();
 

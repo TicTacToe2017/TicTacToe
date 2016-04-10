@@ -5,7 +5,7 @@
   "main": "built/server.js",
   "scripts": {
     "start": "rm -rf build; node_modules/.bin/tsc",
-    "restart": "rm -rf build; rm -rf typings; node_modules/.bin/tsc; node_modules/.bin/typings install",
+    "restart": "rm -rf build; rm -rf typings; rm -rf node_modules; npm install; node_modules/.bin/typings install; node_modules/.bin/tsc",
     "postinstall": "node_modules/.bin/typings install",
     "test": "node_modules/.bin/jasmine"
   },
@@ -21,7 +21,9 @@
   "homepage": "https://github.com/jorgegzlezprez/TicTacToe#readme",
   "dependencies": {
     "body-parser": "^1.15.0",
+    "es6-promise": "^3.1.2",
     "express": "^4.13.4",
+    "mongodb": "^2.1.11",
     "request": "^2.69.0",
     "typings": "^0.7.8"
   },

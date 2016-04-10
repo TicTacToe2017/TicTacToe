@@ -131,7 +131,7 @@ export default class ApiClient {
             }
         };
 
-        request.post(url, null, requestCallback);
+        request.put(url, null, requestCallback);
     }
 
 }
