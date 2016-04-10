@@ -108,7 +108,7 @@ export default class Game {
                     dbHelper.deleteGame(this);
                     resolve({ status: 201, message: "You win!" });
                 } else {
-                    resolve({ status: 200, message: "Tile marked" });
+                    resolve({ status: 201, message: "Tile marked" });
                 }
             } else {
                 resolve({ status: 403, message: "Tile is already marked" });
