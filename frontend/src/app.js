@@ -270,10 +270,7 @@
 				this.data.x[storageVar] = null;
 				return this.data.o[storageVar] = null;
 			},
-            showAlert: function(msg) {
-                setTimeout(function(){ 
-                    $(".alerts").fadeOut();
-                }, 3000);
+			showAlert: function(msg) {
 				return $(".alerts").text(msg).slideDown();
 			}
 		};//Tic
@@ -291,7 +288,8 @@
 				return Tic.showAlert("Player names cannot be identical");
             } else {
                 Tic.setPlayerNames();
-                if(Tic.retrieveStats()===true)
+                //if(Tic.retrieveStats()===true) //TODO: retrieveStats should return a callback or a promise
+                Tic.retrieveStats();
                     return Tic.initialize();
             }
 
@@ -326,7 +324,7 @@
             }
 
             $.ajax(settings).done(function (response) {
-                Tic.showAlert(response);
+                console.log(response);
             });
  
             $('#createUser').hide();
