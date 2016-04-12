@@ -270,7 +270,10 @@
 				this.data.x[storageVar] = null;
 				return this.data.o[storageVar] = null;
 			},
-			showAlert: function(msg) {
+            showAlert: function(msg) {
+                setTimeout(function(){ 
+                    $(".alerts").fadeOut();
+                }, 3000);
 				return $(".alerts").text(msg).slideDown();
 			}
 		};//Tic
@@ -324,7 +327,7 @@
             }
 
             $.ajax(settings).done(function (response) {
-                console.log(response);
+                Tic.showAlert(response);
             });
  
             $('#createUser').hide();
