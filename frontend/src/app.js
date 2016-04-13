@@ -33,7 +33,7 @@
                 var that = this;
 
                 var settings = {
-                    "async": true,
+                    "async": false,
                     "crossDomain": true,
                     "url": "http://localhost:3000/users/" + this.data.playerX,
                     "method": "GET",
@@ -44,7 +44,7 @@
                     that.data.playerXStats = { wins: data.winnings, loses: data.played }
 
                     var settings = {
-                        "async": true,
+                        "async": false,
                         "crossDomain": true,
                         "url": "http://localhost:3000/users/" + that.data.playerO,
                         "method": "GET",
@@ -56,19 +56,30 @@
                         return true;
                     });
 
-                });
-            
+                });            
             },
 
             getPlayerName: function(symbol) {
-
 				var name;
 				name = this.data.rolePlayerX === symbol ? this.data.playerX : this.data.playerO;
                 return name;
-
 			},
 
             prepareBoard: function() {
+
+                var i, results, square;
+				$("form").hide();
+				$("#board").empty();
+				$(".alerts").removeClass("welcome").show();
+				$(".alerts").text((this.getPlayerName("X")) + " Goes First");
+                results = [];
+
+                for (square = i = 0; i <= 8; square = ++i) {
+					results.push($("<div>", {
+                        "class": "square",
+                        "id": i
+					}).appendTo("#board"));
+                }
 
                 $.post("http://localhost:3000/games/"+this.data.playerX + "/" + this.data.playerO,{},
                     function(data, status) {
@@ -76,13 +87,21 @@
                             Tic.showAlert("Previous game exists");
 
                             // TODO: get game board
-                            $.get("http://localhost:3000/games/" + this.data.playerX + "/" + this.data.playerO,
-                                function(data, status) {
-                                    if (data) {
-                                        // PRINT TILES                                        
+                            var settings = {
+                            "async": false,
+                            "crossDomain": true,
+                            "url": "http://localhost:3000/games/Spiderman/Batman",
+                            "method": "GET"
+                            }
+
+                            $.ajax(settings).done(function(data, status) {
+                                data.tiles.forEach(function(tile) {
+                                    if (tile) {
+                                        $(tile.id).html("X").addClass("x moved");
                                     }
-                                }
-                            );
+                                    Tic.data.turns++;
+                                }, this);                                
+                            });
 
                          }
                         else {
@@ -90,19 +109,8 @@
                         }                        
                     }
                 );
-
-				var i, results, square;
-				$("form").hide();
-				$("#board").empty();
-				$(".alerts").removeClass("welcome").show();
-				$(".alerts").text((this.getPlayerName("X")) + " Goes First");
-				results = [];
-				for (square = i = 0; i <= 8; square = ++i) {
-					results.push($("<div>", {
-                        "class": "square",
-                        "id": i
-					}).appendTo("#board"));
-				}
+				
+				
 				return results;
 			},
 
@@ -133,7 +141,7 @@
 					text: msg
 				}));
 			},
-
+            
 			addListeners: function() {
 				return $(".square").click(function() {
 					if (Tic.data.gameOver === false && !$(this).text().length) {
@@ -143,15 +151,17 @@
                         else if (Tic.data.turns % 2 !== 0) {                            
 							$(this).html("O").addClass("o moved");
                         }
+                        var tileId = this.id;
+                        var settings = {
+                            "async": false,
+                            "crossDomain": true,
+                            "url": "http://localhost:3000/games/"+ Tic.data.playerX + "/" + Tic.data.playerO + "?tile=" + tileId,
+                            "method": "PUT"
+                        }
 
-                        // CALL API FOR MOVE
-                        $.put("http://localhost:3000/games/" + this.data.playerX + "/" + this.data.playerO + + "?tile=" + this.id,{},
-                            function(data, status) {
-                                if (status !== 201) {
-                                    Tic.showAlert("Incorrect move");                        
-                                }
-                            }
-                        );
+                        $.ajax(settings).done(function (response) {
+                            console.log(response);
+                        });;
 
 						Tic.data.turns++;
 						Tic.checkEnd();
@@ -329,7 +339,10 @@
             $.ajax(settings).done(function (response) {
                 Tic.showAlert(response);
             });
- 
+
+            $("input[id='user']")[0].value = "";
+            $("input[id='password']")[0].value = "";
+
             $('#createUser').hide();
             $('#enterPlayers').show();
         });        
