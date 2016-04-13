@@ -78,7 +78,7 @@ games.put("/:name_player_x/:name_player_o", (req, res) => {
         res.status(404)
             .send("Tile index must be between 0 and 8");
     }
-    
+
     DbHelper
         .getGameByPlayerNames(name_player_x, name_player_o)
         .then((game: Game) => {
