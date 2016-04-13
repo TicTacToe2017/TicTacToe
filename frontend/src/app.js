@@ -81,37 +81,35 @@
 					}).appendTo("#board"));
                 }
 
-                $.post("http://localhost:3000/games/"+this.data.playerX + "/" + this.data.playerO,{},
-                    function(data, status) {
-                        if (status === 403) {
-                            Tic.showAlert("Previous game exists");
-
-                            // TODO: get game board
-                            var settings = {
-                            "async": false,
-                            "crossDomain": true,
-                            "url": "http://localhost:3000/games/Spiderman/Batman",
-                            "method": "GET"
-                            }
-
-                            $.ajax(settings).done(function(data, status) {
-                                data.tiles.forEach(function(tile) {
-                                    if (tile) {
-                                        $(tile.id).html("X").addClass("x moved");
-                                    }
-                                    Tic.data.turns++;
-                                }, this);                                
-                            });
-
-                         }
-                        else {
-                            Tic.showAlert("Created new game");
-                        }                        
+                var settings = {
+                    "async": false,
+                    "crossDomain": true,
+                    "url": "http://localhost:3000/games/"+this.data.playerX+"/"+this.data.playerO,
+                    "method": "POST"
                     }
-                );
-				
-				
-				return results;
+
+                $.ajax(settings).done(function (data) {
+                    return results;
+                });
+
+                var settings = {
+                    "async": false,
+                    "crossDomain": true,
+                    "url": "http://localhost:3000/games/"+this.data.playerX+"/"+this.data.playerO,
+                    "method": "GET"
+                    }
+
+                $.ajax(settings).done(function(data) {
+
+                    for (var i = 0; i < data.tiles.length; i++) {
+                        if (data.tiles[i]) {
+                            $('#'+i).html(data.tiles[i].toUpperCase()).addClass(data.tiles[i] + " moved");
+                            Tic.data.turns++;
+                        }
+                    }                    
+                    return results;
+                });
+
 			},
 
 			assignRoles: function() {
