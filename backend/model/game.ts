@@ -97,7 +97,7 @@ export default class Game {
     }
 
     // TODO: remove this method from here, it mixes model, db and api logic...
-    private checkMovementResult(result): Promise<any> {
+    private checkMovementResult(result: boolean): Promise<any> {
 
         let promise: Promise<any> = new Promise((
             resolve: (value: any) => void,
