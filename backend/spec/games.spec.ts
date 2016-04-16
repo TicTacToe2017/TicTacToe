@@ -11,7 +11,7 @@ describe("GET /games/name", () => {
     });
 });
 
-describe("GET /games/name_player_x/name_player_o", () => {
+describe("POST /games/name_player_x/name_player_o", () => {
     it("creates a new game between two players if only it has not been created already", (done) => {
         ApiClient.startGame("Spiderman", "Batman", (err, res) => {
             expect(err).toBeFalsy();
