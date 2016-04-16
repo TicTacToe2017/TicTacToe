@@ -2,6 +2,7 @@ import Game from "../model/game";
 import Tile from "../model/tile";
 import {Router} from "express";
 import DbHelper from "../repository/db-helper";
+import User from "../model/user";
 
 const games: Router = Router();
 
@@ -12,19 +13,43 @@ games.post("/:name_player_x/:name_player_o", (req, res) => {
     const name_player_x: string = req.params.name_player_x;
     const name_player_o: string = req.params.name_player_o;
 
+    if (name_player_x === name_player_o) {
+        res.sendStatus(400);
+    }
+
     DbHelper
-        .getGameByPlayerNames(name_player_x, name_player_o)
-        .then((game: Game) => {
-            if (game) {
-                res.status(403)
-                    .send("Game already exists");
-            } else {
-                DbHelper
-                    .addGame(name_player_x, name_player_o)
-                    .then(() => {
-                        res.sendStatus(201);
-                    });
+        .getUserByName(name_player_x)
+        .then((user: User) => {
+            if (!user) {
+                res.status(400)
+                    .send("Player does not exits");
             }
+        })
+        .then(() => {
+            DbHelper
+                .getUserByName(name_player_o)
+                .then((user: User) => {
+                    if (!user) {
+                        res.status(400)
+                            .send("Player does not exists");
+                    }
+                })
+                .then(() => {
+                    DbHelper
+                        .getGameByPlayerNames(name_player_x, name_player_o)
+                        .then((game: Game) => {
+                            if (game) {
+                                res.status(403)
+                                    .send("Game already exists");
+                            } else {
+                                DbHelper
+                                    .addGame(name_player_x, name_player_o)
+                                    .then(() => {
+                                        res.sendStatus(201);
+                                    });
+                            }
+                        });
+                });
         });
 });
 

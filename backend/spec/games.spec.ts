@@ -12,7 +12,7 @@ describe("GET /games/name", () => {
 });
 
 describe("Get /games/name_player_x/name_player_o", () => {
-    it("rreturns \"Game does not exists\" if getting a non existing game", (done) => {
+    it("returns \"Game does not exists\" if getting a non existing game", (done) => {
         ApiClient.getGame("Spiderman", "Daredevil", (err, res) => {
             expect(res).toBeFalsy();
             expect(err).toEqual("Game does not exists");
@@ -28,6 +28,15 @@ describe("Get /games/name_player_x/name_player_o", () => {
                 expect(game.player_o).toEqual("Daredevil");
                 done();
             });
+        });
+    });
+
+    it("returns the same game no matter the order of the players names", (done) => {
+        ApiClient.getGame("Daredevil", "Spiderman", (err, game: Game) => {
+            expect(err).toBeFalsy();
+            expect(game.player_x).toEqual("Spiderman");
+            expect(game.player_o).toEqual("Daredevil");
+            done();
         });
     });
 
@@ -70,30 +79,27 @@ describe("POST /games/name_player_x/name_player_o", () => {
     });
 
     it("returns Game already exists if the player names are swapped", (done) => {
-        // TODO
-        // ApiClient.startGame("Batman", "Spiderman", (err, res) => {
-        //     expect(res).toBeFalsy();
-        //     expect(err).toEqual("Game already exists");
-        //     done();
-        // });
+        ApiClient.startGame("Batman", "Spiderman", (err, res) => {
+            expect(res).toBeFalsy();
+            expect(err).toEqual("Game already exists");
+            done();
+        });
     });
 
-    it("returns error 404 if creating a game with an user agains himself", (done) => {
-        // TODO
-        // ApiClient.startGame("Batman", "Spiderman", (err, res) => {
-        //     expect(res).toBeFalsy();
-        //     expect(err).toEqual("Game already exists");
-        //     done();
-        // });
+    it("returns error 400 if creating a game with an user agains himself", (done) => {
+        ApiClient.startGame("Spiderman", "Spiderman", (err, res) => {
+            expect(res).toBeFalsy();
+            expect(err).toEqual("Bad Request");
+            done();
+        });
     });
 
     it("returns player does not exist if creating a game with a non existent player", (done) => {
-        // TODO
-        // ApiClient.startGame("Batman", "Spiderman", (err, res) => {
-        //     expect(res).toBeFalsy();
-        //     expect(err).toEqual("Game already exists");
-        //     done();
-        // });
+        ApiClient.startGame("Batman", "Antman", (err, res) => {
+            expect(res).toBeFalsy();
+            expect(err).toEqual("Player does not exists");
+            done();
+        });
     });
 });
 
