@@ -112,6 +112,28 @@ export default class ApiClient {
         request.post(url, null, requestCallback);
     }
 
+    public static getGame(
+        name_player_x: string,
+        name_player_o: string,
+        callback: (error, game: Game) => void
+    ): void {
+        const url: string = `http://localhost:3000/games/${name_player_x}/${name_player_o}`;
+        const requestCallback = (error, response, body) => {
+            if (error) {
+                callback(error, null);
+
+            } else if (response.statusCode !== 200) {
+                callback(body, null);
+
+            } else {
+                const game: Game = JSON.parse(body);
+                callback(null, game);
+            }
+        };
+
+        request.get(url, null, requestCallback);
+    }
+
     public static move(
         name_player_x: string,
         name_player_o: string,

@@ -12,31 +12,43 @@ describe("GET /games/name", () => {
 });
 
 describe("Get /games/name_player_x/name_player_o", () => {
-    it("returns \"Game not exists\" if getting a non existing game", (done) => {
-        // TODO
-        // ApiClient.getGame("Spiderman", "Batman", (err, games: Game[]) => {
-        //     expect(err).toBeFalsy();
-        //     expect(games.length).toBe(0);
-        //     done();
-        // });
+    it("rreturns \"Game does not exists\" if getting a non existing game", (done) => {
+        ApiClient.getGame("Spiderman", "Daredevil", (err, res) => {
+            expect(res).toBeFalsy();
+            expect(err).toEqual("Game does not exists");
+            done();
+        });
     });
 
-    it("returns a game if it exists between two players", (done) => {
-        // TODO
-        // ApiClient.getGame("Spiderman", "Batman", (err, games: Game[]) => {
-        //     expect(err).toBeFalsy();
-        //     expect(games.length).toBe(0);
-        //     done();
-        // });
+    it("returns a game if it exists", (done) => {
+        ApiClient.startGame("Spiderman", "Daredevil", (err, res) => {
+            ApiClient.getGame("Spiderman", "Daredevil", (err, game: Game) => {
+                expect(err).toBeFalsy();
+                expect(game.player_x).toEqual("Spiderman");
+                expect(game.player_o).toEqual("Daredevil");
+                done();
+            });
+        });
     });
 
-    it("returns \"Game not exists\" if getting an already finished game", (done) => {
-        // TODO
-        // ApiClient.getGame("Spiderman", "Batman", (err, games: Game[]) => {
-        //     expect(err).toBeFalsy();
-        //     expect(games.length).toBe(0);
-        //     done();
-        // });
+    it("returns \"Game does not exists\" if getting an already finished game", (done) => {
+        ApiClient.move("Spiderman", "Daredevil", 0, (err, res) => {
+            ApiClient.move("Spiderman", "Daredevil", 1, (err, res) => {
+                ApiClient.move("Spiderman", "Daredevil", 3, (err, res) => {
+                    ApiClient.move("Spiderman", "Daredevil", 4, (err, res) => {
+                        ApiClient.move("Spiderman", "Daredevil", 6, (err, res) => {
+                            expect(err).toBeFalsy();
+                            expect(res).toEqual("You win!");
+                            ApiClient.getGame("Spiderman", "Daredevil", (err, res) => {
+                                expect(res).toBeFalsy();
+                                expect(err).toEqual("Game does not exists");
+                                done();
+                            });
+                        });
+                    });
+                });
+            });
+        });
     });
 });
 
