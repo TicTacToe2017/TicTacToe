@@ -96,6 +96,7 @@ export default class Game {
         return promise;
     }
 
+    // TODO: remove this method from here, it mixes model, db and api logic...
     private checkMovementResult(result): Promise<any> {
 
         let promise: Promise<any> = new Promise((
@@ -117,7 +118,7 @@ export default class Game {
 
         return promise;
 
-     };
+    };
 
     public static fromJson(json): Game {
         const jsonGame = json as Game;
