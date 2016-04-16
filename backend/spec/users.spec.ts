@@ -61,27 +61,63 @@ describe("GET /users/name", () => {
         ApiClient.getUser("Spiderman", (err, user: User) => {
             expect(err).toBeNull();
             expect(user.name).toEqual("Spiderman");
-            expect(user.played).toEqual(0);
-            expect(user.winnings).toEqual(0);
             done();
         });
     });
 
-    it("increase by one both players' played counter if they finish a game between each other", (done) => {
-        // TODO
-        // ApiClient.startGame("Batman", "Spiderman", (err, res) => {
-        //     expect(res).toBeFalsy();
-        //     expect(err).toEqual("Game already exists");
-        //     done();
-        // });
+    it("returns an user entitiy with his stats at 0 if just created", (done) => {
+        ApiClient.postUser("Hulk", "hulk1960", (err, msg) => {
+            ApiClient.getUser("Hulk", (err, user: User) => {
+                expect(err).toBeNull();
+                expect(user.name).toEqual("Hulk");
+                expect(user.winnings).toEqual(0);
+                expect(user.played).toEqual(0);
+                done();
+            });
+        });
     });
 
-    it("increase by one the user's winnings counter if he wings some game", (done) => {
-        // TODO
-        // ApiClient.startGame("Batman", "Spiderman", (err, res) => {
-        //     expect(res).toBeFalsy();
-        //     expect(err).toEqual("Game already exists");
-        //     done();
-        // });
+    it("increase by one both players' counters if they finish a game between each other", (done) => {
+        let previouslyPlayedByBatman: number;
+        let previouslyWonByBatman: number;
+
+        let previouslyPlayedByWolverine: number;
+        let previouslyWonByWolverine: number;
+
+        ApiClient.getUser("Batman", (err, batman: User) => {
+            previouslyPlayedByBatman = batman.played;
+            previouslyWonByBatman = batman.winnings;
+
+            ApiClient.getUser("Wolverine", (err, wolverine: User) => {
+                previouslyPlayedByWolverine = wolverine.played;
+                previouslyWonByWolverine = wolverine.winnings;
+
+                ApiClient.startGame("Batman", "Wolverine", (err, res) => {
+                    expect(res).toEqual("Created");
+                    ApiClient.move("Batman", "Wolverine", 0, (err, res) => {
+                        ApiClient.move("Batman", "Wolverine", 1, (err, res) => {
+                            ApiClient.move("Batman", "Wolverine", 3, (err, res) => {
+                                ApiClient.move("Batman", "Wolverine", 4, (err, res) => {
+                                    ApiClient.move("Batman", "Wolverine", 6, (err, res) => {
+                                        expect(res).toEqual("You win!");
+
+                                        ApiClient.getUser("Batman", (err, batman: User) => {
+                                            expect(batman.played).toEqual(previouslyPlayedByBatman + 1);
+                                            expect(batman.winnings).toEqual(previouslyWonByBatman + 1);
+
+                                            ApiClient.getUser("Wolverine", (err, wolverine: User) => {
+                                                expect(wolverine.played).toEqual(previouslyPlayedByWolverine + 1);
+                                                expect(wolverine.winnings).toEqual(previouslyWonByWolverine);
+                                                done();
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
     });
 });
