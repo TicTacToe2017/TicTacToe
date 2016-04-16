@@ -4,6 +4,8 @@ import * as request from "request";
 
 export default class ApiClient {
 
+    // TODO: make ApiClient to return promises instead of using callbacks
+
     public static getUsers(callback: (error, users: User[]) => void): void {
         const url: string = "http://localhost:3000/users";
         const requestCallback = (error, response, body) => {
