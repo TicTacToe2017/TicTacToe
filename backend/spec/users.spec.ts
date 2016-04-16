@@ -66,4 +66,22 @@ describe("GET /users/name", () => {
             done();
         });
     });
+
+    it("increase by one both players' played counter if they finish a game between each other", (done) => {
+        // TODO
+        // ApiClient.startGame("Batman", "Spiderman", (err, res) => {
+        //     expect(res).toBeFalsy();
+        //     expect(err).toEqual("Game already exists");
+        //     done();
+        // });
+    });
+
+    it("increase by one the user's winnings counter if he wings some game", (done) => {
+        // TODO
+        // ApiClient.startGame("Batman", "Spiderman", (err, res) => {
+        //     expect(res).toBeFalsy();
+        //     expect(err).toEqual("Game already exists");
+        //     done();
+        // });
+    });
 });
