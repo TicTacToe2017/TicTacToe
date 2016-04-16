@@ -106,6 +106,7 @@ export default class Game {
 
             if (result) {
                 if (this.isFinished()) {
+                    dbHelper.finishGame(this);
                     dbHelper.deleteGame(this);
                     resolve({ status: 201, message: "You win!" });
                 } else {

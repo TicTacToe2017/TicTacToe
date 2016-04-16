@@ -117,4 +117,37 @@ export default class DbHelper {
                 game
             );
     }
+
+    static finishGame(game: Game): Promise<any> {
+        const loser: string = game.currentPlayer();
+        const winner: string = loser === game.player_x
+            ? game.player_o
+            : game.player_x;
+
+        return this.updateUserWinner(winner)
+            .then(() => {
+                this.updateUserLoser(loser);
+            })
+            .then(() => {
+                this.deleteGame(game);
+            });
+    }
+
+    private static updateUserWinner(winnerName: string): Promise<any> {
+        return this.db
+            .collection("users")
+            .updateOne(
+                ({ name: winnerName }),
+                ({ $inc: { winnings: 1, played: 1 } })
+            );
+    }
+
+    private static updateUserLoser(loserName: string): Promise<any> {
+        return this.db
+            .collection("users")
+            .updateOne(
+                ({ name: loserName }),
+                ({ $inc: { played: 1 } })
+            );
+    }
 }
